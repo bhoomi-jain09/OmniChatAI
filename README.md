@@ -153,7 +153,7 @@ LANGCHAIN_PROJECT=omnichat-ai
 
 **Variable reference:**
 
-- `OPENAI_API_KEY` — Your LLM provider's API key. Required.
+- `GROQ_API_KEY` — Your LLM provider's API key. Required.
 - `VECTOR_STORE_PATH` — Where PDF embeddings are persisted on disk.
 - `DATABASE_URL` — SQLAlchemy connection string for SQL memory and thread storage. Defaults to a local SQLite file.
 - `STOCK_API_KEY` — API key for the stock price provider (if your chosen provider requires one).
@@ -243,36 +243,29 @@ Thread data is persisted in the SQL database alongside message memory.
 
 ```
 omnichat-ai/
-│
-├── app.py                        # Streamlit entry point
+├── app.py                        ← frontend.py 
 ├── requirements.txt
 ├── .env.example
-│
-├── agent/
-│   ├── graph.py                  # LangGraph state machine definition
-│   ├── nodes.py                  # Graph nodes (router, responder, etc.)
-│   └── tools/
-│       ├── pdf_retriever.py      # RAG retrieval tool
-│       ├── web_search.py         # DuckDuckGo search tool
-│       ├── stock_price.py        # Stock price fetching tool
-│       └── calculator.py         # Calculator tool
-│
-├── memory/
-│   ├── sql_memory.py             # SQLChatMessageHistory setup
-│   └── thread_manager.py         # Thread creation, listing, switching
-│
-├── ingestion/
-│   └── pdf_ingestion.py          # PDF parsing, chunking, embedding
-│
-├── vectorstore/
-│   └── store.py                  # Vector store init and retriever factory
-│
 ├── config/
-│   └── settings.py               # Centralised config and env loading
-│
-└── data/
-    ├── omnichat_memory.db         # SQLite memory DB (auto-created)
-    └── vectorstore/               # Persisted PDF embeddings
+│   ├── __init__.py
+│   └── settings.py               ← model + embeddings init (load_dotenv here)
+├── agent/
+│   ├── __init__.py
+│   ├── state.py                  ← chatstate TypedDict
+│   ├── nodes.py                  ← chatnode (imports model from config)
+│   ├── graph.py                  ← StateGraph + workflow + retrieve_all_threads()
+│   └── tools/
+│       ├── __init__.py           ← assembles tools = [search, stock, calc, rag]
+│       ├── web_search.py
+│       ├── calculator.py
+│       ├── stock_price.py
+│       └── rag.py                ← imports _get_retriever from ingestion
+├── ingestion/
+│   ├── __init__.py
+│   └── pdf_ingestion.py          ← ingest_pdf, thread_document_metadata, registries
+└── memory/
+    ├── __init__.py
+    └── checkpointer.py           ← SqliteSaver, auto-creates data/ folder
 ```
 
 ---

@@ -4,7 +4,7 @@ from langgraph.prebuilt import ToolNode, tools_condition
 from agent.state import chatstate
 from agent.nodes import chatnode
 from retrieve_all_threads.tool import tools
-from langgraph.checkpoint.memory import checkpointer
+from memory.checkpointer import checkpointer
 
 tool_node = ToolNode(tools)
 

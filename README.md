@@ -85,7 +85,7 @@ The system consists of three main layers:
 ## Prerequisites
 
 - Python 3.10+
-- An OpenAI API key (or another LangChain-compatible LLM provider)
+- An GroqAI API key (or another LangChain-compatible LLM provider)
 - `pip` or a virtual environment manager (e.g. `venv`, `conda`)
 - Optional: A LangSmith API key for tracing and debugging
 
@@ -127,7 +127,7 @@ Create a `.env` file at the project root with the following variables:
 
 ```env
 # ── LLM Provider ──────────────────────────────────────────────────
-OPENAI_API_KEY=your-openai-api-key-here
+GROQAI_API_KEY=your-groqqai-api-key-here
 
 # ── Vector Store ──────────────────────────────────────────────────
 # Path or connection string for your vector store
